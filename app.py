@@ -1,8 +1,10 @@
 import streamlit as st
 import requests
-import speech_recognition as sr
-from gtts import gTTS
+import sounddevice as sd
+import numpy as np
+import wavio
 import os
+from gtts import gTTS
 
 # Together AI API Key (Replace with your actual key)
 TOGETHER_AI_KEY = "a05bd3c0021a25d190d8906e8eb724eb7119a045484cf3852bcb082f3419802b"
@@ -51,16 +53,31 @@ st.markdown("""
 st.markdown('<p class="title">🎙 AI Voice Chatbot (Together AI)</p>', unsafe_allow_html=True)
 st.write("🔊 Speak to the AI and get a real-time response!")
 
-recognizer = sr.Recognizer()
+# Audio Recording Parameters
+SAMPLE_RATE = 44100  # 44.1 kHz
+DURATION = 5  # 5 seconds
 
 # 🎤 **Voice Recording & AI Response**
 if st.button("🎤 Start Talking"):
-    with sr.Microphone() as source:
-        st.write("🎙 Listening...")
+    st.write("🎙 Recording for 5 seconds...")
+    
+    # Record audio
+    recording = sd.rec(int(DURATION * SAMPLE_RATE), samplerate=SAMPLE_RATE, channels=1, dtype=np.int16)
+    sd.wait()
+    
+    # Save audio as WAV file
+    audio_file = "user_audio.wav"
+    wavio.write(audio_file, recording, SAMPLE_RATE, sampwidth=2)
+    
+    st.write("🔄 Processing Speech...")
+    
+    # Convert speech to text (Google Speech Recognition via SpeechRecognition library)
+    import speech_recognition as sr
+    recognizer = sr.Recognizer()
+    with sr.AudioFile(audio_file) as source:
+        audio_data = recognizer.record(source)
         try:
-            audio = recognizer.listen(source, timeout=5)
-            st.write("🔄 Processing Speech...")
-            user_text = recognizer.recognize_google(audio)
+            user_text = recognizer.recognize_google(audio_data)
             st.success(f"👤 You: {user_text}")
 
             # 📡 **API Request to Together AI**

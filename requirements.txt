@@ -3,4 +3,5 @@ requests
 speechrecognition
 pydub
 gtts
-pyaudio
+sounddevice
+numpy
