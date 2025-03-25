@@ -3,4 +3,4 @@ requests
 speechrecognition
 pydub
 gtts
-pyaudio
+pyaudio==0.2.13
