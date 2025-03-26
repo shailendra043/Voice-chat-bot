@@ -4,12 +4,6 @@ import requests
 import speech_recognition as sr
 from gtts import gTTS
 
-# 🔹 Handle PyAudio Import Issues
-try:
-    import pyaudio
-except ImportError:
-    os.system("pip install pyaudio")
-    import pyaudio
 
 # Together AI API Config
 TOGETHER_AI_KEY = "45513378158001858488262601131d87a8c2feceb5e7a7938525c3892f864958"
