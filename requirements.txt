@@ -3,5 +3,4 @@ requests
 speechrecognition
 pydub
 gtts
-portaudio
 ffmpeg
