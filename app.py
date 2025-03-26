@@ -12,7 +12,7 @@ except ImportError:
     import pyaudio
 
 # Together AI API Config
-TOGETHER_AI_KEY = "your_api_key"
+TOGETHER_AI_KEY = "45513378158001858488262601131d87a8c2feceb5e7a7938525c3892f864958"
 TOGETHER_AI_URL = "https://api.together.xyz/v1/chat/completions"
 MODEL_NAME = "meta-llama/Llama-3.3-70B-Instruct-Turbo"
 
